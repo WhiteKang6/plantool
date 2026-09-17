@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>学习计划</title>
+    <script type="module" src="/main.js" defer></script>
+  </head>
+  <body>
+    <div class="widget">
+      <header class="titlebar">
+        <div class="drag" data-tauri-drag-region>
+          <span class="date" id="date-label"></span>
+          <span class="weekday" id="weekday-label"></span>
+        </div>
+        <div class="controls">
+          <button class="ctrl-btn" id="btn-collapse" title="收起 / 展开">▾</button>
+          <button class="ctrl-btn danger" id="btn-close" title="关闭">✕</button>
+        </div>
+      </header>
+
+      <section class="summary">
+        <div class="summary-top">
+          <span id="progress-text">今日 0/0</span>
+          <span class="streak" id="streak"></span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progress-fill"></div>
+        </div>
+      </section>
+
+      <section class="tasks" id="tasks">
+        <ul class="task-list" id="task-list"></ul>
+        <div class="empty" id="empty-hint">今天还没有计划，添加一个吧</div>
+      </section>
+
+      <section class="history">
+        <span class="history-title">近 7 天</span>
+        <div class="history-bars" id="history-bars"></div>
+      </section>
+
+      <footer class="addbar">
+        <input type="text" id="input-title" placeholder="添加学习任务…" autocomplete="off" />
+        <input type="time" id="input-start" title="开始时间" />
+        <input type="time" id="input-end" title="结束时间" />
+        <button id="btn-add" title="添加">＋</button>
+      </footer>
+    </div>
+
+    <div class="toast" id="toast" hidden></div>
+  </body>
+</html>
