@@ -27,6 +27,7 @@ const els = {
   streak: document.getElementById('streak'),
   taskList: document.getElementById('task-list'),
   emptyHint: document.getElementById('empty-hint'),
+  collapsedTasks: document.getElementById('collapsed-tasks'),
   historyBars: document.getElementById('history-bars'),
   inputTitle: document.getElementById('input-title'),
   inputStart: document.getElementById('input-start'),
@@ -39,7 +40,7 @@ const els = {
 
 const WIDTH = 380;
 const FULL_H = 560;
-const COLLAPSED_H = 120;
+const COLLAPSED_H = 150;
 
 let state = loadState();
 let collapsed = false;
@@ -61,19 +62,63 @@ function render() {
   els.streak.textContent = streak > 0 ? `连续打卡 ${streak} 天` : '';
 
   renderTasks(tasks, key, now);
+  renderCollapsed(tasks, key, now);
   renderHistory(key);
+}
+
+function sortTasks(tasks) {
+  return [...tasks].sort((a, b) => {
+    if (a.start && b.start) return a.start < b.start ? -1 : 1;
+    if (a.start) return -1;
+    if (b.start) return 1;
+    return 0;
+  });
+}
+
+function renderCollapsed(tasks, key, now) {
+  els.collapsedTasks.innerHTML = '';
+
+  if (!tasks.length) {
+    const hint = document.createElement('div');
+    hint.className = 'cv-empty';
+    hint.textContent = '今天还没有计划';
+    els.collapsedTasks.appendChild(hint);
+    return;
+  }
+
+  const hhmm = currentHHMM(now);
+  for (const t of sortTasks(tasks)) {
+    const row = document.createElement('div');
+    row.className = 'cv-row' + (t.done ? ' done' : '');
+
+    const check = document.createElement('button');
+    check.className = 'cv-check';
+    check.textContent = '✓';
+    check.title = '标记完成';
+    check.addEventListener('click', () => toggleTask(key, t.id));
+
+    row.appendChild(check);
+    if (t.start) {
+      const time = document.createElement('span');
+      time.className = 'cv-time' + (isOverdue(t, hhmm) ? ' overdue' : '');
+      time.textContent = t.start;
+      row.appendChild(time);
+    }
+
+    const title = document.createElement('span');
+    title.className = 'cv-title';
+    title.textContent = t.title;
+    row.appendChild(title);
+
+    els.collapsedTasks.appendChild(row);
+  }
 }
 
 function renderTasks(tasks, key, now) {
   els.taskList.innerHTML = '';
   els.emptyHint.style.display = tasks.length ? 'none' : 'block';
 
-  const sorted = [...tasks].sort((a, b) => {
-    if (a.start && b.start) return a.start < b.start ? -1 : 1;
-    if (a.start) return -1;
-    if (b.start) return 1;
-    return 0;
-  });
+  const sorted = sortTasks(tasks);
 
   const hhmm = currentHHMM(now);
 

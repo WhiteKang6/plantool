@@ -405,6 +405,91 @@ textarea {
   background: var(--accent-2);
 }
 
+.collapsed-tasks {
+  display: none;
+}
+
+body.collapsed .collapsed-tasks {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  overflow-y: auto;
+  padding: 6px 12px;
+}
+
+.collapsed-tasks::-webkit-scrollbar {
+  width: 6px;
+}
+
+.collapsed-tasks::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+
+.cv-row {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 3px 8px;
+  border-radius: 8px;
+  background: var(--bg-soft);
+  flex-shrink: 0;
+}
+
+.cv-check {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  cursor: pointer;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  color: transparent;
+  transition: all 0.15s;
+}
+
+.cv-row.done .cv-check {
+  background: var(--green);
+  border-color: var(--green);
+  color: #0f1f18;
+}
+
+.cv-time {
+  font-size: 10px;
+  color: var(--muted);
+  flex-shrink: 0;
+}
+
+.cv-time.overdue {
+  color: var(--red);
+}
+
+.cv-title {
+  flex: 1;
+  min-width: 0;
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cv-row.done .cv-title {
+  color: var(--muted);
+  text-decoration: line-through;
+}
+
+.cv-empty {
+  text-align: center;
+  color: var(--muted);
+  font-size: 12px;
+  padding: 8px 0;
+}
+
 body.collapsed .summary,
 body.collapsed .tasks,
 body.collapsed .history,
