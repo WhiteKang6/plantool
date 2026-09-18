@@ -11,8 +11,11 @@
     <div class="widget">
       <header class="titlebar">
         <div class="drag" data-tauri-drag-region>
+          <button class="nav-btn" id="btn-prev-day" title="前一天">‹</button>
           <span class="date" id="date-label"></span>
+          <button class="nav-btn" id="btn-next-day" title="后一天">›</button>
           <span class="weekday" id="weekday-label"></span>
+          <button class="link-btn today-btn" id="btn-today" hidden>回今天</button>
         </div>
         <div class="controls">
           <button class="ctrl-btn" id="btn-collapse" title="收起 / 展开">▾</button>
@@ -38,16 +41,32 @@
       </section>
 
       <section class="history">
-        <span class="history-title">近 7 天</span>
+        <div class="history-head">
+          <span class="history-title">近 7 天</span>
+          <button class="link-btn" id="btn-all-plans">全部计划</button>
+        </div>
         <div class="history-bars" id="history-bars"></div>
       </section>
 
       <footer class="addbar">
-        <input type="text" id="input-title" placeholder="添加学习任务…" autocomplete="off" />
-        <input type="time" id="input-start" title="开始时间" />
-        <input type="time" id="input-end" title="结束时间" />
-        <button id="btn-add" title="添加">＋</button>
+        <div class="addbar-row">
+          <input type="text" id="input-title" placeholder="添加学习任务…" autocomplete="off" />
+          <button id="btn-add" title="添加">＋</button>
+        </div>
+        <div class="addbar-row">
+          <input type="date" id="input-date" title="计划日期" />
+          <input type="time" id="input-start" title="开始时间" />
+          <input type="time" id="input-end" title="结束时间" />
+        </div>
       </footer>
+
+      <div class="overlay" id="all-plans" hidden>
+        <div class="overlay-head">
+          <span class="overlay-title">全部计划</span>
+          <button class="ctrl-btn" id="btn-all-close" title="关闭">✕</button>
+        </div>
+        <div class="overlay-body" id="all-plans-body"></div>
+      </div>
     </div>
 
     <div class="toast" id="toast" hidden></div>

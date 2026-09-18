@@ -17,6 +17,30 @@ export function weekdayCN(date = new Date()) {
   return `周${WEEKDAYS[date.getDay()]}`;
 }
 
+export function dateFromKey(key) {
+  return new Date(key + 'T00:00:00');
+}
+
+export function addDaysToKey(key, delta) {
+  const d = dateFromKey(key);
+  d.setDate(d.getDate() + delta);
+  return todayKey(d);
+}
+
+export function diffDaysFromToday(key) {
+  const a = dateFromKey(todayKey()).getTime();
+  const b = dateFromKey(key).getTime();
+  return Math.round((b - a) / 86400000);
+}
+
+export function relativeDayCN(key) {
+  const diff = diffDaysFromToday(key);
+  if (diff === 0) return '今天';
+  if (diff === 1) return '明天';
+  if (diff === -1) return '昨天';
+  return diff > 0 ? `${diff} 天后` : `${-diff} 天前`;
+}
+
 function emptyState() {
   return { version: 1, tasks: {}, reminded: {} };
 }
@@ -62,6 +86,13 @@ export function removeTask(state, key, id) {
     key,
     getTasks(state, key).filter((t) => t.id !== id)
   );
+}
+
+export function moveTask(state, fromKey, toKey, id, patch = {}) {
+  const task = getTasks(state, fromKey).find((t) => t.id === id);
+  if (!task) return;
+  removeTask(state, fromKey, id);
+  addTask(state, toKey, { ...task, ...patch });
 }
 
 export function isReminded(state, key, id) {

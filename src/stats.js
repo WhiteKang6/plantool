@@ -34,7 +34,7 @@ export function lastNDays(state, todayStr, n = 7) {
     const key = todayKey(d);
     const tasks = state.tasks[key] || [];
     const s = dayStats(tasks);
-    out.push({ key, pct: s.pct, total: s.total, day: d.getDate(), isToday: key === todayStr });
+    out.push({ key, pct: s.pct, total: s.total, done: s.done, day: d.getDate(), isToday: key === todayStr });
   }
   return out;
 }

@@ -13,7 +13,7 @@
         "label": "main",
         "title": "学习计划",
         "width": 380,
-        "height": 560,
+        "height": 600,
         "minWidth": 300,
         "minHeight": 100,
         "resizable": true,
